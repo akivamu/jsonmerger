@@ -18,7 +18,15 @@ public class JsonMerger {
 
             // Conflict
             if (updateJsonObject.has(key)) {
-                resultJsonObject.add(key, updateJsonObject.get(key));
+                // Case Primitive || JsonArray: overwrite
+                if (originEntry.getValue().isJsonPrimitive() || originEntry.getValue().isJsonArray()) {
+                    resultJsonObject.add(key, updateJsonObject.get(key));
+                }
+
+                // Case JsonObject: recursive merge
+                if (originEntry.getValue().isJsonObject()) {
+                    resultJsonObject.add(key, merge(originEntry.getValue().getAsJsonObject(), updateJsonObject.get(key).getAsJsonObject()));
+                }
             }
         }
 
