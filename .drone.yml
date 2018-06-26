@@ -1,0 +1,7 @@
+pipeline:
+  build:
+    image: openjdk:alpine
+    environment:
+      - GRADLE_USER_HOME=~/.gradle
+    commands:
+      - ./gradlew build
